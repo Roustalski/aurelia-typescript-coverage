@@ -14,20 +14,25 @@ let entryIndex = appSrc.indexOf(path.join(output, project.build.loader.configTar
 let entryBundle = appSrc.splice(entryIndex, 1)[0];
 let files = [entryBundle].concat(testSrc).concat(appSrc);
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
     basePath: '',
     frameworks: [project.testFramework.id],
     files: files,
     exclude: [],
     preprocessors: {
-      [project.unitTestRunner.source]: [project.transpiler.id]
+      [project.unitTestRunner.source]: [project.transpiler.id],
+      'scripts/app-bundle.js': ['coverage'],
     },
     typescriptPreprocessor: {
       typescript: require('typescript'),
-      options: tsconfig.compilerOptions
+      options: tsconfig.compilerOptions,
     },
-    reporters: ['progress'],
+    reporters: ['progress', 'coverage'],
+    coverageReporter: {
+      dir: 'coverage/',
+      type: 'html',
+    },
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
