@@ -28,14 +28,22 @@ module.exports = function (config) {
       typescript: require('typescript'),
       options: tsconfig.compilerOptions,
     },
-    reporters: ['progress', 'coverage'],
+    reporters: ['progress', 'coverage', 'karma-remap-istanbul'],
     coverageReporter: {
       dir: 'coverage/',
       type: 'html',
     },
+    remapIstanbulReporter: {
+      reports: {
+        html: "coverage/html-report",
+        json: "coverage/report.json",
+        lcovonly: "coverage/lcov-report.info",
+        cobertura: "coverage/cobertura"
+      }
+    },
     port: 9876,
     colors: true,
-    logLevel: config.LOG_INFO,
+    logLevel: config.LOG_DEBUG,
     autoWatch: true,
     browsers: ['Chrome'],
     singleRun: false
